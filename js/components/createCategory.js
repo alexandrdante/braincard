@@ -1,4 +1,5 @@
 import { createElement } from '../helper/createElement.js'
+import { declOfNum } from '../helper/declOfNum.js';
 
 export const createCategory = (app) => {
 
@@ -21,47 +22,48 @@ export const createCategory = (app) => {
 	const createCategoryCard = (data) => {
 		const item = createElement('li', {
 			className: 'category__item',
-			//textContent: data.title,
+
 		});
 		item.dataset.id = data.id;
 
-		const buttonCategoryCard = createElement('button', {
+		const btnCard = createElement('button', {
 			className: 'category__card',
 		});
 
 
 
-		const categortyTitle = createElement('span', {
+		const titleText = createElement('span', {
 			className: 'category__title',
 			textContent: data.title,
 		});
 
 
-		const categortyPairs = createElement('span', {
+		const countPairs = createElement('span', {
 			className: 'category__pairs',
-			textContent: data.length + ' пар',
+			textContent: declOfNum(data.length, ['пара', 'пары', 'пар']),
 		});
 
-		buttonCategoryCard.append(categortyTitle, categortyPairs);
+		btnCard.append(titleText, countPairs);
 
 
 
-		const buttonEdit = createElement('button', {
+
+		const btnEdit = createElement('button', {
 			className: 'category__btn category__edit',
-
+			ariaLabel: 'Редактировать',
 		});
-		buttonEdit.setAttribute('aria-label', 'Редактировать');
 
 
 
-		const buttonDelete = createElement('button', {
+
+		const btnDel = createElement('button', {
 			className: 'category__btn category__del',
-
+			ariaLabel: 'Удалить',
 		});
 
-		buttonDelete.setAttribute('aria-label', 'Удалить');
 
-		item.append(buttonCategoryCard, buttonEdit, buttonDelete);
+
+		item.append(btnCard, btnEdit, btnDel);
 
 
 
@@ -73,9 +75,10 @@ export const createCategory = (app) => {
 
 	const mount = (data) => {
 		categoryList.textContent = '';
-		app.append(category);
+
 		const cards = data.map(createCategoryCard);
 		categoryList.append(...cards);
+		app.append(category);
 	};
 
 	const unmount = () => {
